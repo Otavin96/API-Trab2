@@ -1,0 +1,37 @@
+{
+  "name": "api-trab2",
+  "version": "1.0.0",
+  "description": "API para trabalho da disciplina de Programação 3 do Curso ADS",
+  "main": "index.js",
+  "scripts": {
+    "dev": "npx dotenv-cli -e .env -- ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules src/common/infrastructure/http/server.ts",
+    "typeorm": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
+    "typeorm:migrate": "ts-node -r tsconfig-paths/register node_modules/typeorm/cli.js migration:run -d src/common/infrastructure/typeorm/index.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/express": "^5.0.0",
+    "@types/swagger-ui-express": "^4.1.8",
+    "api-trab2": "file:",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "pg": "^8.14.0",
+    "reflect-metadata": "^0.2.2",
+    "swagger-ui": "^5.20.1",
+    "swagger-ui-express": "^5.0.1",
+    "ts-node-dev": "^2.0.0",
+    "tsconfig-paths": "^4.2.0",
+    "tsyringe": "^4.8.0",
+    "typeorm": "^0.3.21",
+    "typeorm-cli": "^1.0.7",
+    "typescript": "^5.8.2",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/node": "^22.13.10"
+  }
+}
