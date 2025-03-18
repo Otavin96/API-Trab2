@@ -1,8 +1,12 @@
-import { Router } from "express";
-import { createCategoryController } from "../controllers/create-category.controller";
+import { Router } from 'express'
+import { createCategoryController } from '@/categories/infrastructure/http/controllers/create-category.controller'
 
-const categoryRouter = Router();
 
-categoryRouter.post("/", createCategoryController);
+const categoriesRouter = Router()
 
-export { categoryRouter };
+categoriesRouter.post('/', createCategoryController)
+
+
+
+
+export { categoriesRouter }

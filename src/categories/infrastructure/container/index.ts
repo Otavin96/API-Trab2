@@ -6,12 +6,14 @@ import { CreateCategoryUseCase } from "@/categories/application/usecases/create-
 
 container.registerSingleton("CategoryRepository", CategoriesTypeormRepository);
 
+container.registerSingleton(
+  "CreateCategoryUseCase",
+  CreateCategoryUseCase.UseCase
+);
+
 container.registerInstance(
   "CategoriesDefaultTypeormRepository",
   dataSource.getRepository(Category)
 );
 
-container.registerSingleton(
-  "CreateCategoryUseCase",
-  CreateCategoryUseCase.UseCase
-);
+

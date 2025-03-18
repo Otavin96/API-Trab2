@@ -1,34 +1,26 @@
-import { dataValidation } from "@/common/infrastructure/validation/zod";
-import { CreateCategoryUseCase } from "@/categories/application/usecases/create-products.usecase";
-import { Request, Response, NextFunction } from "express";
+import { Request, Response } from "express";
 import { container } from "tsyringe";
+import { CreateCategoryUseCase } from "@/categories/application/usecases/create-products.usecase";
 import { z } from "zod";
 
 export async function createCategoryController(
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<Response> {
+  request: Request,
+  response: Response
+): Promise<Response> {  // Retorna Response explicitamente
   try {
     const createCategoryBodySchema = z.object({
       name: z.string(),
       description: z.string(),
     });
 
-    const { name, description } = dataValidation(
-      createCategoryBodySchema,
-      req.body
-    );
+    const { name, description } = createCategoryBodySchema.parse(request.body);  // Usando parse direto
 
-    const categoryRepository = container.resolve("CategoryRepository");
-
-    const createCategoryUseCase: CreateCategoryUseCase.UseCase =
-      container.resolve("CreateCategoryUseCase");
-
+    const createCategoryUseCase: CreateCategoryUseCase.UseCase = container.resolve('CreateCategoryUseCase');
     const category = await createCategoryUseCase.execute({ name, description });
 
-    return res.status(201).json(category);
+    return response.status(201).json(category);
   } catch (error) {
-    next(error);
+    console.error(error);
+    return response.status(500).json({ message: "Internal Server Error" });
   }
 }

@@ -10,7 +10,7 @@ import { Repository } from "typeorm";
 @injectable()
 export class PaymentsTypeormRepository implements PaymentsRepository {
   constructor(
-    @inject("PaymentsDefaulTypeormRepository")
+    @inject("PaymentsDefaultTypeormRepository")
     private paymentsRepository: Repository<PaymentsModel>
   ) {}
 

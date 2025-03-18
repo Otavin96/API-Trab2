@@ -1,16 +1,12 @@
-import { categoryRouter } from "@/categories/infrastructure/http/routes/category.route";
 import { Router } from "express";
+import { categoriesRouter } from "@/categories/infrastructure/http/routes/category.route";
+import { paymentRouter } from "@/payments/infrastructure/http/routes/payment.router";
+
 
 const routes = Router();
 
-routes.get("/", (req, res) => {
-  res.status(200).json({ message: "Ola Dev!" });
-});
+routes.use("/category", categoriesRouter);
+routes.use("/payment", paymentRouter);
 
-routes.use("/category", categoryRouter);
-// routes.use('/suppliers', supplierRouter)
-// routes.use('/users', usersRouter)
-// routes.use('/stockMovement', stockMovementRouter)
-// routes.use('/password', userTokenRouter)
 
 export { routes };
