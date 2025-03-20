@@ -13,9 +13,9 @@ export async function CreatePaymentController(request: Request, response: Respon
         day: z.number()
     });
 
-    // const { description, type, day } = dataValidation(createPaymentBodySchema, request.body);
+    const { description, type, day } = dataValidation(createPaymentBodySchema, request.body);
 
-    const { description, type, day } = request.body
+    // const { description, type, day } = request.body
 
     const payment = await createPaymentUseCase.execute({ description, type, day });
 

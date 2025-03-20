@@ -15,6 +15,7 @@ export async function createCategoryController(
 
     const { name, description } = createCategoryBodySchema.parse(request.body);  // Usando parse direto
 
+    container.resolve("CategoryRepository")
     const createCategoryUseCase: CreateCategoryUseCase.UseCase = container.resolve('CreateCategoryUseCase');
     const category = await createCategoryUseCase.execute({ name, description });
 

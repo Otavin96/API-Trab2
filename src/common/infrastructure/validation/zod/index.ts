@@ -7,12 +7,12 @@ export function dataValidation(schema: any, data: any) {
    * @returns retorna os dados validados
    */
 
-  const validatedData = schema.safaeParse(data);
+  const validatedData = schema.safeParse(data);
 
   if (validatedData.success === false) {
     console.error("Invalid data", validatedData.error.format());
     throw new AppError(
-      `${validatedData.error.erros.map((err) => {
+      `${validatedData.error.erros.map((err: any) => {
         return `${err.path} => ${err.message}`;
       })}`
     );

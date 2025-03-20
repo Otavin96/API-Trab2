@@ -4,7 +4,9 @@ import { createCategoryController } from '@/categories/infrastructure/http/contr
 
 const categoriesRouter = Router()
 
-categoriesRouter.post('/', createCategoryController)
+categoriesRouter.post('/', async (req, res) => {
+   await createCategoryController(req, res)
+})
 
 
 

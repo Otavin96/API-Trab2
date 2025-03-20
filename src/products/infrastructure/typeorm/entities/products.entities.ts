@@ -3,7 +3,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  OneToMany,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
@@ -28,8 +28,8 @@ export class Product {
   @Column("numeric")
   quantity: number;
 
-  @OneToMany(() => Category, (category) => category.product)
-  categories: Category[];
+  @ManyToOne(() => Category, { nullable: true, onDelete: "SET NULL", onUpdate: "CASCADE" })
+  category: Category;
 
   @CreateDateColumn({ name: "created_at" })
   createdAt: Date;

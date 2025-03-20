@@ -40,7 +40,7 @@ export class ClientsTypeormRepository implements ClientsRepository {
   }
 
   protected async _get(id: string): Promise<ClientsModel> {
-    const client = this.clientsRepository.findOneBy({ id });
+    const client = await this.clientsRepository.findOneBy({ id });
 
     if (!client) {
       throw new NotFoundError(`Client not found using ID ${id}`);

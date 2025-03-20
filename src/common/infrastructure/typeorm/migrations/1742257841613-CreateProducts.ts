@@ -46,8 +46,13 @@ export class CreateProducts1742257841613 implements MigrationInterface {
 
         // Criando ENUM para tipo de pagamento
         await queryRunner.query(`
-            CREATE TYPE "public"."payments_type_enum" AS ENUM('boleto', 'cartão')
-        `);
+            DO $$ 
+            BEGIN 
+              IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'payments_type_enum') THEN 
+                CREATE TYPE "public"."payments_type_enum" AS ENUM('boleto', 'cartão'); 
+              END IF; 
+            END $$;
+          `);
 
         // Criando tabela de pagamentos
         await queryRunner.query(`

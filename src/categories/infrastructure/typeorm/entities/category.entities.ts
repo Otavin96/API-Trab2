@@ -1,9 +1,10 @@
+
 import { Product } from "@/products/infrastructure/typeorm/entities/products.entities";
 import {
   Column,
   CreateDateColumn,
   Entity,
-  ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
@@ -19,12 +20,8 @@ export class Category {
   @Column("text")
   description: string;
 
-  @ManyToOne(() => Product, (product) => product.categories, {
-    nullable: true,
-    onDelete: "CASCADE",
-    onUpdate: "CASCADE",
-  })
-  product: Product;
+  @OneToMany(() => Product, (product) => product.category)
+  products: Product[];
 
   @CreateDateColumn({ name: "created_at" })
   createdAt: Date;
