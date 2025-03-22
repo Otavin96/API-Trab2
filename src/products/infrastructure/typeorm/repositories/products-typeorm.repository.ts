@@ -16,7 +16,7 @@ export class ProductsTypeormRepository implements ProductsRepository {
   ) {}
 
   async findByName(name: string): Promise<ProductsModel> {
-    const product = this.productsRepository.findOneBy({ name });
+    const product = await this.productsRepository.findOneBy({ name });
 
     if (!product) {
       throw new NotFoundError(`Product not found using name ${name}`);
@@ -26,7 +26,7 @@ export class ProductsTypeormRepository implements ProductsRepository {
   }
 
   async conflictingName(name: string): Promise<void> {
-    const product = this.productsRepository.findOneBy({ name });
+    const product = await this.productsRepository.findOneBy({ name });
 
     if (product) {
       throw new ConflictError(`Name already used on another product`);
@@ -61,7 +61,7 @@ export class ProductsTypeormRepository implements ProductsRepository {
   }
 
   protected async _get(id: string): Promise<ProductsModel> {
-    const product = this.productsRepository.findOneBy({ id });
+    const product = await this.productsRepository.findOneBy({ id });
 
     if (!product) {
       throw new NotFoundError(`Product not found using ID ${id}`);

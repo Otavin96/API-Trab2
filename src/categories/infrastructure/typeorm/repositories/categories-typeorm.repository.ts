@@ -17,7 +17,7 @@ export class CategoriesTypeormRepository implements CategoriesRepository {
 
   // Encontrar categoria por nome
   async findByName(name: string): Promise<CategoriesModel> {
-    const category = await this.categoriesRepository.findOneBy({ name });  // Adicionando await
+    const category = await this.categoriesRepository.findOneBy({ name }); // Adicionando await
 
     if (!category) {
       throw new NotFoundError(`Category not found using name ${name}`);
@@ -28,7 +28,7 @@ export class CategoriesTypeormRepository implements CategoriesRepository {
 
   // Verificar se o nome já está em uso
   async conflictingName(name: string): Promise<void> {
-    const category = await this.categoriesRepository.findOneBy({ name });  // Adicionando await
+    const category = await this.categoriesRepository.findOneBy({ name }); // Adicionando await
 
     if (category) {
       throw new ConflictError("Name already used on another category");
@@ -42,35 +42,36 @@ export class CategoriesTypeormRepository implements CategoriesRepository {
 
   // Inserir nova categoria
   async insert(model: CategoriesModel): Promise<CategoriesModel> {
-    await this.conflictingName(model.name);  // Verificando se o nome já está em uso
+    await this.conflictingName(model.name); // Verificando se o nome já está em uso
 
-    return this.categoriesRepository.save(model);  // Retorna a categoria salva, com id atribuído
+    return this.categoriesRepository.save(model); // Retorna a categoria salva, com id atribuído
   }
 
   // Encontrar categoria por ID
   async findById(id: string): Promise<CategoriesModel> {
-    return this._get(id);  // Buscando categoria pelo ID
+    return this._get(id); // Buscando categoria pelo ID
   }
 
   // Atualizar categoria
   async update(model: CategoriesModel): Promise<CategoriesModel> {
-    await this._get(model.id);  // Verificando se a categoria existe
+    await this._get(model.id); // Verificando se a categoria existe
 
-    await this.categoriesRepository.update({ id: model.id }, model);  // Atualizando a categoria
+    await this.categoriesRepository.update({ id: model.id }, model); // Atualizando a categoria
 
-    return model;  // Retornando o modelo atualizado
+    return model; // Retornando o modelo atualizado
   }
 
   // Deletar categoria
   async delete(id: string): Promise<void> {
-    await this._get(id);  // Verificando se a categoria existe
+    await this._get(id); // Verificando se a categoria existe
 
-    await this.categoriesRepository.delete(id);  // Deletando a categoria
+    await this.categoriesRepository.delete(id); // Deletando a categoria
   }
 
   // Método privado para buscar categoria por ID
   protected async _get(id: string): Promise<CategoriesModel> {
-    const category = await this.categoriesRepository.findOneBy({ id });  // Adicionando await
+    // const category = await this.categoriesRepository.findOne({where: {id}, relations: ['']}, );
+    const category = await this.categoriesRepository.findOneBy({ id }); // Adicionando await
 
     if (!category) {
       throw new NotFoundError(`Category not found using ID ${id}`);
