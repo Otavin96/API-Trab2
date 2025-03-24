@@ -8,6 +8,10 @@ export class CategoriesInMemoryRepository
   extends InMemoryRepository<CategoriesModel>
   implements CategoriesRepository
 {
+  async listAll(): Promise<CategoriesModel[]> {
+    return this.items;
+  }
+
   async conflictingName(name: string): Promise<void> {
     const category = this.items.find((item) => item.name === name);
 

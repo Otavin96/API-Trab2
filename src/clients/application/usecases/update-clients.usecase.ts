@@ -1,10 +1,10 @@
 import { inject, injectable } from "tsyringe";
 import { ClientOutput } from "../dtos/client-output.dto";
 import { ClientsRepository } from "@/clients/repositories/clients.repository";
-import { BadRequestError } from "@/common/domain/erros/badRequest-error";
 
-export namespace CreateClientsUsecase {
+export namespace UpdateClientsUseCase {
   export type Input = {
+    id: string;
     cnpj: string;
     social_reason: string;
   };
@@ -19,16 +19,19 @@ export namespace CreateClientsUsecase {
     ) {}
 
     async execute(input: Input): Promise<Output> {
-      if (!input.cnpj || !input.social_reason) {
-        throw new BadRequestError("Input data not provided or invalid");
+      let client = await this.clientsRepository.findById(input.id);
+
+      if (input.cnpj) {
+        client.cnpj = input.cnpj;
       }
 
-      const client = this.clientsRepository.create(input);
+      if (input.social_reason) {
+        client.social_reason = input.social_reason;
+      }
 
-      const createdClient: ClientOutput =
-        await this.clientsRepository.insert(client);
+      const updatedClient = await this.clientsRepository.update(client);
 
-      return createdClient;
+      return updatedClient;
     }
   }
 }

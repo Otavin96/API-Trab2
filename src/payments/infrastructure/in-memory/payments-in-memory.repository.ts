@@ -4,4 +4,9 @@ import { PaymentsRepository } from "@/payments/repositories/payments.repository"
 
 export class PaymentsInMemoryRepository
   extends InMemoryRepository<PaymentsModel>
-  implements PaymentsRepository {}
+  implements PaymentsRepository
+{
+  async listAll(): Promise<PaymentsModel[]> {
+    return this.items;
+  }
+}

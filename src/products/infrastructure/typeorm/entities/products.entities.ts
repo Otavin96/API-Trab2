@@ -3,6 +3,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -28,8 +29,13 @@ export class Product {
   @Column("numeric")
   quantity: number;
 
-  @ManyToOne(() => Category, { nullable: true, onDelete: "SET NULL", onUpdate: "CASCADE" })
-  category: Category;
+  @ManyToOne(() => Category, {
+    nullable: true,
+    onDelete: "SET NULL",
+    onUpdate: "CASCADE",
+  })
+  @JoinColumn({ name: "category_id" })
+  category_id: Category;
 
   @CreateDateColumn({ name: "created_at" })
   createdAt: Date;

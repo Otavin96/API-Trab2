@@ -15,6 +15,10 @@ export class ProductsTypeormRepository implements ProductsRepository {
     private productsRepository: Repository<ProductsModel>
   ) {}
 
+  async listAll(): Promise<ProductsModel[]> {
+    return this.productsRepository.find({ relations: ["category_id"] });
+  }
+
   async findByName(name: string): Promise<ProductsModel> {
     const product = await this.productsRepository.findOneBy({ name });
 
@@ -61,7 +65,10 @@ export class ProductsTypeormRepository implements ProductsRepository {
   }
 
   protected async _get(id: string): Promise<ProductsModel> {
-    const product = await this.productsRepository.findOneBy({ id });
+    const product = await this.productsRepository.findOne({
+      where: { id },
+      relations: ["category_id"],
+    });
 
     if (!product) {
       throw new NotFoundError(`Product not found using ID ${id}`);

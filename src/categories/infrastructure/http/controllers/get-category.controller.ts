@@ -1,8 +1,9 @@
 import { Request, Response } from "express";
 import { container } from "tsyringe";
 import { z } from "zod";
-import { GetCategoriesUseCase } from "@/categories/application/usecases/get-products.usecase";
+
 import { dataValidation } from "@/common/infrastructure/validation/zod/index";
+import { GetCategoriesUseCase } from "@/categories/application/usecases/get-categories.usecase";
 
 export async function getCategoryController(
   request: Request,

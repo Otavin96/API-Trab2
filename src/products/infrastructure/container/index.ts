@@ -3,6 +3,10 @@ import { ProductsTypeormRepository } from "../typeorm/repositories/products-type
 import { dataSource } from "@/common/infrastructure/typeorm";
 import { Product } from "../typeorm/entities/products.entities";
 import { CreateProductsUseCase } from "@/products/application/usecases/create_products.usecase";
+import { ListAllProductsUseCase } from "@/products/application/usecases/listAll-products.usecase";
+import { GetProductsUseCase } from "@/products/application/usecases/get-products.usecase";
+import { UpdateProductsUseCase } from "@/products/application/usecases/update-products.usecase";
+import { DeleteProductsUseCase } from "@/products/application/usecases/delete-products.usecase";
 
 container.registerSingleton("ProductRepository", ProductsTypeormRepository);
 
@@ -14,4 +18,21 @@ container.registerInstance(
 container.registerSingleton(
   "CreateProductsUseCase",
   CreateProductsUseCase.UseCase
+);
+
+container.registerSingleton(
+  "ListAllProductsUseCase",
+  ListAllProductsUseCase.UseCase
+);
+
+container.registerSingleton("GetProductsUseCase", GetProductsUseCase.UseCase);
+
+container.registerSingleton(
+  "UpdateProductsUseCase",
+  UpdateProductsUseCase.UseCase
+);
+
+container.registerSingleton(
+  "DeleteProductsUseCase",
+  DeleteProductsUseCase.UseCase
 );

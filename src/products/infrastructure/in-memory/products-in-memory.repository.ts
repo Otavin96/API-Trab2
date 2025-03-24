@@ -8,6 +8,9 @@ export class ProductsInMemoryRepository
   extends InMemoryRepository<ProductsModel>
   implements ProductsRepository
 {
+  async listAll(): Promise<ProductsModel[]> {
+    return this.items;
+  }
   async conflictingName(name: string): Promise<void> {
     const product = this.items.find((item) => item.name === name);
 

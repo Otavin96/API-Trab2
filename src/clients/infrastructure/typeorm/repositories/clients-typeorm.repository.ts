@@ -14,6 +14,10 @@ export class ClientsTypeormRepository implements ClientsRepository {
     private clientsRepository: Repository<ClientsModel>
   ) {}
 
+  async listAll(): Promise<ClientsModel[]> {
+    return this.clientsRepository.find();
+  }
+
   create(props: CreateClientsProps): ClientsModel {
     return this.clientsRepository.create(props);
   }

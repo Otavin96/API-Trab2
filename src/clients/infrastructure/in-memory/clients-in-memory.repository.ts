@@ -4,4 +4,9 @@ import { InMemoryRepository } from "@/common/domain/repositories/in-memory.repos
 
 export class ClientsInMemoryRepository
   extends InMemoryRepository<ClientsModel>
-  implements ClientsRepository {}
+  implements ClientsRepository
+{
+  async listAll(): Promise<ClientsModel[]> {
+    return this.items;
+  }
+}

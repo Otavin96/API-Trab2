@@ -14,6 +14,10 @@ export class PaymentsTypeormRepository implements PaymentsRepository {
     private paymentsRepository: Repository<PaymentsModel>
   ) {}
 
+  async listAll(): Promise<PaymentsModel[]> {
+    return this.paymentsRepository.find();
+  }
+
   create(props: CreatePaymentsProps): PaymentsModel {
     return this.paymentsRepository.create(props);
   }

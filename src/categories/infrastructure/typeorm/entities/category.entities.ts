@@ -1,4 +1,3 @@
-
 import { Product } from "@/products/infrastructure/typeorm/entities/products.entities";
 import {
   Column,
@@ -20,7 +19,7 @@ export class Category {
   @Column("text")
   description: string;
 
-  @OneToMany(() => Product, (product) => product.category)
+  @OneToMany(() => Product, (product) => product.category_id)
   products: Product[];
 
   @CreateDateColumn({ name: "created_at" })

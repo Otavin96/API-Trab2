@@ -15,6 +15,10 @@ export class CategoriesTypeormRepository implements CategoriesRepository {
     private categoriesRepository: Repository<CategoriesModel>
   ) {}
 
+  async listAll(): Promise<CategoriesModel[]> {
+    return this.categoriesRepository.find({});
+  }
+
   // Encontrar categoria por nome
   async findByName(name: string): Promise<CategoriesModel> {
     const category = await this.categoriesRepository.findOneBy({ name }); // Adicionando await
