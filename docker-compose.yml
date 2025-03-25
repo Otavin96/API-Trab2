@@ -11,6 +11,17 @@ services:
     volumes:
       - postgres_data:/bitnami/postgresql
 
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672" # Porta AMQP (conexão com a aplicação)
+      - "15672:15672" # Painel de gerenciamento do RabbitMQ
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    restart: always
+
 volumes:
   postgres_data:
     driver: local
