@@ -17,6 +17,9 @@ export class Client {
   @Column("text")
   social_reason: string;
 
+  @Column("text")
+  email: string
+
   @CreateDateColumn()
   created_at: Date;
 

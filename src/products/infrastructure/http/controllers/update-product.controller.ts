@@ -13,10 +13,10 @@ export async function updateProductController(
   });
 
   const updateCategorySchemaBody = z.object({
-    name: z.string(),
-    description: z.string(),
-    price: z.number().positive(),
-    quantity: z.number().positive(),
+    name: z.string().optional(),
+    description: z.string().optional(),
+    price: z.number().positive().optional(),
+    quantity: z.number().positive().optional(),
   });
 
   const { id } = dataValidation(updateProductSchemaParam, request.params);

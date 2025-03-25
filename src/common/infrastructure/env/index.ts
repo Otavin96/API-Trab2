@@ -19,6 +19,8 @@ const envSchema = z.object({
   DB_USER: z.string().default("postgres"),
   DB_PASS: z.string().default("postgres"),
   MY_SECRET: z.string(),
+  MAIL: z.string(),
+  PASS_MAIL: z.string(),
 });
 
 const _env = envSchema.safeParse(process.env);
