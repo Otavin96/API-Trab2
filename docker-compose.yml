@@ -15,7 +15,7 @@ services:
     image: rabbitmq:management
     container_name: rabbitmq
     ports:
-      - "5672:5672" # Porta AMQP (conexão com a aplicação)
+      - "5672:5672" # Porta AMQP (conexão da aplicação)
       - "15672:15672" # Painel de gerenciamento do RabbitMQ
     environment:
       RABBITMQ_DEFAULT_USER: guest

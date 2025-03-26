@@ -1,9 +1,7 @@
 import { inject, injectable } from "tsyringe";
 import { ProductOutput } from "../dtos/product-output.dtoo";
 import { ProductsRepository } from "@/products/repositories/products.repository";
-import { Category } from "@/categories/infrastructure/typeorm/entities/category.entities";
 import { CategoriesRepository } from "@/categories/repositories/categories.repository";
-import { NodeMailer } from '@/common/infrastructure/http/nodemailer/nodemailer-provider';
 
 export namespace UpdateProductsUseCase {
   export type Input = {
@@ -25,10 +23,7 @@ export namespace UpdateProductsUseCase {
       private productsRepository: ProductsRepository,
 
       @inject("CategoryRepository")
-      private categoriesRepository: CategoriesRepository,
-
-      @inject("NodeMailer")
-      private nodeMailer: NodeMailer
+      private categoriesRepository: CategoriesRepository
     ) {}
 
     async execute(input: Input): Promise<Output> {
@@ -57,7 +52,9 @@ export namespace UpdateProductsUseCase {
       }
 
       if (input.category_id) {
-        const category = await this.categoriesRepository.findById(input.category_id);
+        const category = await this.categoriesRepository.findById(
+          input.category_id
+        );
 
         product.sku = `${product.name.slice(0, 3)}${category.name.slice(0, 3)}${input.sku}`;
       }
@@ -65,9 +62,6 @@ export namespace UpdateProductsUseCase {
       const updatedProduct = await this.productsRepository.update(product);
 
       if (priceChanged) {
-        this.nodeMailer.sendMail("otaviolazzarotto@icloud.com").catch(err => {
-          console.error("Erro ao enviar e-mail:", err);
-        });
       }
 
       return updatedProduct;

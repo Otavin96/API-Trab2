@@ -5,4 +5,4 @@ import "@/products/infrastructure/container";
 import { container } from "tsyringe";
 import { NodeMailer } from "../http/nodemailer/nodemailer-provider";
 
-container.registerSingleton("NodeMailer", NodeMailer)
+container.registerSingleton("NodeMailer", NodeMailer);

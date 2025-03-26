@@ -21,6 +21,8 @@ const envSchema = z.object({
   MY_SECRET: z.string(),
   MAIL: z.string(),
   PASS_MAIL: z.string(),
+  RABBITMQ_URL: z.string().default("amqp://guest:guest@localhost:5672"),
+  QUEUE_NAME: z.string().default("email_notifications"),
 });
 
 const _env = envSchema.safeParse(process.env);
