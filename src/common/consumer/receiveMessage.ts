@@ -2,12 +2,12 @@ import { connectRabbitMQ } from "../infrastructure/rabbitmq/config/rabbitmq";
 import { NodeMailer } from "../infrastructure/http/nodemailer/nodemailer-provider";
 import { env } from "../infrastructure/env";
 
-async function consumeMessages() {
+export async function consumeMessages() {
     const { channel } = await connectRabbitMQ();
     const mailer = new NodeMailer();
     const queueName = env.QUEUE_NAME || "email_notifications";
 
-    console.log(`👂 Escutando a fila "${queueName}"...`);
+    console.log(`Escutando a fila "${queueName}"...`);
 
     channel.consume(queueName, async (msg) => {
         if (msg) {

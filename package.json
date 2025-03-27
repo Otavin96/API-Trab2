@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "npx dotenv-cli -e .env -- ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules src/common/infrastructure/http/server.ts",
     "typeorm": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
-    "typeorm:migrate": "ts-node -r tsconfig-paths/register node_modules/typeorm/cli.js migration:run -d src/common/infrastructure/typeorm/index.ts"
+    "typeorm:migrate": "ts-node -r tsconfig-paths/register node_modules/typeorm/cli.js migration:run -d src/common/infrastructure/typeorm/index.ts",
+    "start:worker": "npx tsx src/common/consumer/receiveMessage.ts"
   },
   "keywords": [],
   "author": "",
@@ -39,6 +40,7 @@
     "@types/cors": "^2.8.17",
     "@types/node": "^22.13.10",
     "@types/nodemailer": "^6.4.17",
-    "@types/swagger-jsdoc": "^6.0.4"
+    "@types/swagger-jsdoc": "^6.0.4",
+    "concurrently": "^9.1.2"
   }
 }

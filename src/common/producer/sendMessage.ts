@@ -9,7 +9,7 @@ export async function sendMessage(queueName: string, data: any) {
         persistent: true
     })
 
-    console.log(`📤 Mensagem adicionada na fila "${queueName}":`, data)
+    console.log(`Mensagem adicionada na fila "${queueName}":`, data)
 
     setTimeout(() => {
         connection.close()

@@ -3,6 +3,7 @@ import { ProductOutput } from "../dtos/product-output.dtoo";
 import { ProductsRepository } from "@/products/repositories/products.repository";
 import { CategoriesRepository } from "@/categories/repositories/categories.repository";
 import { sendMessage } from "@/common/producer/sendMessage";
+import { NotFoundError } from "@/common/domain/erros/not-found-error";
 export namespace UpdateProductsUseCase {
   export type Input = {
     id: string;
@@ -29,7 +30,7 @@ export namespace UpdateProductsUseCase {
     async execute(input: Input): Promise<Output> {
       let product = await this.productsRepository.findById(input.id);
       if (!product) {
-        throw new Error("Produto não encontrado");
+        throw new NotFoundError("Product not found");
       }
 
       let priceChanged = false;

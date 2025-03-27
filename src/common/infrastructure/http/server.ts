@@ -3,6 +3,7 @@ import { env } from "../env";
 import { dataSource } from "../typeorm";
 import "@/common/infrastructure/container";
 import { connectRabbitMQ } from "../rabbitmq/config/rabbitmq";
+import { consumeMessages } from "../../consumer/receiveMessage"
 
 async function startServer() {
   try {
@@ -14,6 +15,10 @@ async function startServer() {
     app.listen(env.PORT, () => {
       console.log(`🚀 Server running on port ${env.PORT}! 🏆`);
       console.log("📚 API docs available at GET /docs");
+
+      consumeMessages().catch((error) => {
+        console.error("Erro ao iniciar o Worker do RabbitMQ:", error);
+      });
     });
   } catch (error) {
     console.error("❌ Erro ao iniciar o servidor:", error);
