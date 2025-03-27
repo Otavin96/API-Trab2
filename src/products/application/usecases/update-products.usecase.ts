@@ -2,7 +2,7 @@ import { inject, injectable } from "tsyringe";
 import { ProductOutput } from "../dtos/product-output.dtoo";
 import { ProductsRepository } from "@/products/repositories/products.repository";
 import { CategoriesRepository } from "@/categories/repositories/categories.repository";
-
+import { sendMessage } from "@/common/producer/sendMessage";
 export namespace UpdateProductsUseCase {
   export type Input = {
     id: string;
@@ -61,7 +61,17 @@ export namespace UpdateProductsUseCase {
 
       const updatedProduct = await this.productsRepository.update(product);
 
+      console.log("Teste1")
+
       if (priceChanged) {
+        // 🔹 Agora o e-mail é enviado para a fila do RabbitMQ
+        await sendMessage("email_notifications", {
+            to: "otavio2011afonso@gmail.com",
+            subject: "Preço atualizado!",
+            content: `O produto ${product.name} agora custa R$ ${product.price}`
+          }
+        );
+        console.log("E-mail enfileirado no RabbitMQ");
       }
 
       return updatedProduct;
