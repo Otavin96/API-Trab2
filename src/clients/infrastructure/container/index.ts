@@ -7,6 +7,7 @@ import { ListAllClientsUseCase } from "@/clients/application/usecases/listAll-cl
 import { GetClientsUseCase } from "@/clients/application/usecases/get-clients.usecase";
 import { UpdateClientsUseCase } from "@/clients/application/usecases/update-clients.usecase";
 import { DeleteClientsUseCase } from "@/clients/application/usecases/delete-clients.usecase";
+import { GetEmailClientsUseCase } from "@/clients/application/usecases/getEmail-clients.usecase";
 
 container.registerSingleton("ClientRepository", ClientsTypeormRepository);
 
@@ -26,6 +27,11 @@ container.registerSingleton(
 );
 
 container.registerSingleton("GetClientsUseCase", GetClientsUseCase.UseCase);
+
+container.registerSingleton(
+  "GetEmailClientsUseCase",
+  GetEmailClientsUseCase.UseCase
+);
 
 container.registerSingleton(
   "UpdateClientsUseCase",

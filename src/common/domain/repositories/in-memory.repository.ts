@@ -34,11 +34,15 @@ export abstract class InMemoryRepository<Model extends ModelProps>
     return model;
   }
 
+  async listAll(): Promise<Model[]> {
+    return this.items;
+  }
+
   async findById(id: string): Promise<Model> {
     return this._get(id);
   }
   async update(model: Model): Promise<Model> {
-    await this._get(model.id);
+    await this._get(model.id as unknown as string);
 
     const index = this.items.findIndex((item) => item.id === model.id);
     this.items[index] = model;

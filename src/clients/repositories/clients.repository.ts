@@ -4,7 +4,11 @@ import { ClientsModel } from "../domain/models/clients.model";
 export type CreateClientsProps = {
   cnpj: string;
   social_reason: string;
+  email: string;
+  phone: string;
 };
 
 export interface ClientsRepository
-  extends RepositoryInterface<ClientsModel, CreateClientsProps> {}
+  extends RepositoryInterface<ClientsModel, CreateClientsProps> {
+  findByEmail(email: string): Promise<ClientsModel>;
+}

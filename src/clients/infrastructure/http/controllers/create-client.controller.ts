@@ -11,9 +11,11 @@ export async function CreateClientController(
   const createClientBodySchema = z.object({
     cnpj: z.string(),
     social_reason: z.string(),
+    email: z.string(),
+    phone: z.string(),
   });
 
-  const { cnpj, social_reason } = dataValidation(
+  const { cnpj, social_reason, email, phone } = dataValidation(
     createClientBodySchema,
     request.body
   );
@@ -23,7 +25,12 @@ export async function CreateClientController(
     "CreateClientsUseCase"
   );
 
-  const client = await createClientUseCase.execute({ cnpj, social_reason });
+  const client = await createClientUseCase.execute({
+    cnpj,
+    social_reason,
+    email,
+    phone,
+  });
 
   return response.status(201).json(client);
 }

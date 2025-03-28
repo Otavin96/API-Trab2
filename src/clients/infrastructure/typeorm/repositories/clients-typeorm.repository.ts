@@ -14,6 +14,16 @@ export class ClientsTypeormRepository implements ClientsRepository {
     private clientsRepository: Repository<ClientsModel>
   ) {}
 
+  async findByEmail(email: string): Promise<ClientsModel> {
+    const client = await this.clientsRepository.findOneBy({ email });
+
+    if (!client) {
+      throw new NotFoundError(`Client not found using email: ${email}`);
+    }
+
+    return client;
+  }
+
   async listAll(): Promise<ClientsModel[]> {
     return this.clientsRepository.find();
   }

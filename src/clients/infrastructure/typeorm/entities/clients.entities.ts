@@ -1,3 +1,4 @@
+import { ClientsModel } from "@/clients/domain/models/clients.model";
 import {
   Column,
   CreateDateColumn,
@@ -7,7 +8,7 @@ import {
 } from "typeorm";
 
 @Entity("clients")
-export class Client {
+export class Client implements ClientsModel {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
@@ -18,7 +19,10 @@ export class Client {
   social_reason: string;
 
   @Column("text")
-  email: string
+  email: string;
+
+  @Column("text")
+  phone: string;
 
   @CreateDateColumn()
   created_at: Date;

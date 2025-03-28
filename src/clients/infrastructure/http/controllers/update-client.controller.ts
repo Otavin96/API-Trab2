@@ -15,11 +15,13 @@ export async function updateClientController(
   const updateCategorySchemaBody = z.object({
     name: z.string().optional(),
     description: z.string().optional(),
+    email: z.string().optional(),
+    phone: z.string().optional(),
   });
 
   const { id } = dataValidation(updateCategorySchemaParam, request.params);
 
-  const { cnpj, social_reason } = dataValidation(
+  const { cnpj, social_reason, email, phone } = dataValidation(
     updateCategorySchemaBody,
     request.body
   );
@@ -34,6 +36,8 @@ export async function updateClientController(
     id,
     cnpj,
     social_reason,
+    email,
+    phone,
   });
 
   response.status(200).json(client);

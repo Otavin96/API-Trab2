@@ -4,6 +4,7 @@ import { getClientController } from "../controllers/get-client.controller";
 import { listAllClientController } from "../controllers/listAll-client.controller";
 import { deleteClientController } from "../controllers/delete-client.controller";
 import { updateClientController } from "../controllers/update-client.controller";
+import { getEmailClientController } from "../controllers/getEmail-client.controller";
 
 const clientRouter = Router();
 
@@ -17,6 +18,10 @@ clientRouter.get("/", async (req, res) => {
 
 clientRouter.get("/:id", async (req, res) => {
   getClientController(req, res);
+});
+
+clientRouter.get("/:email", async (req, res) => {
+  getEmailClientController(req, res);
 });
 
 clientRouter.put("/:id", async (req, res) => {

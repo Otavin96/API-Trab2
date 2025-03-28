@@ -1,10 +1,12 @@
 import { Category } from "@/categories/infrastructure/typeorm/entities/category.entities";
+import { ItemOrder } from "@/itemOrders/infrastructure/typeorm/entities/itemOrders.entities";
 import {
   Column,
   CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
@@ -36,6 +38,9 @@ export class Product {
   })
   @JoinColumn({ name: "category_id" })
   category_id: Category;
+
+  @OneToMany(() => ItemOrder, (itemOrder) => itemOrder.product_id)
+  itemOrders: ItemOrder[];
 
   @CreateDateColumn({ name: "created_at" })
   createdAt: Date;

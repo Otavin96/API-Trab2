@@ -7,6 +7,8 @@ export namespace UpdateClientsUseCase {
     id: string;
     cnpj: string;
     social_reason: string;
+    email: string;
+    phone: string;
   };
 
   export type Output = ClientOutput;
@@ -27,6 +29,14 @@ export namespace UpdateClientsUseCase {
 
       if (input.social_reason) {
         client.social_reason = input.social_reason;
+      }
+
+      if (input.email) {
+        client.email = input.email;
+      }
+
+      if (input.phone) {
+        client.phone = input.phone;
       }
 
       const updatedClient = await this.clientsRepository.update(client);
