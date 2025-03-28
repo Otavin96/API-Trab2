@@ -27,7 +27,11 @@ export class ItemOrdersTypeormRepository implements ItemOrdersRepository {
     return this.itemOrdersRepository.find({ relations: ["product_id"] });
   }
   async update(model: ItemOrdersModel): Promise<ItemOrdersModel> {
-    await this._get(id);
+    await this._get(model.id);
+
+    await this.itemOrdersRepository.update({id: model.id}, model)
+
+    return model
   }
   async delete(id: string): Promise<void> {
     await this._get(id);
@@ -47,4 +51,5 @@ export class ItemOrdersTypeormRepository implements ItemOrdersRepository {
 
     return itemOrder;
   }
+
 }
