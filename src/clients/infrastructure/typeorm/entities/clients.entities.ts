@@ -1,8 +1,10 @@
 import { ClientsModel } from "@/clients/domain/models/clients.model";
+import { Order } from "@/orders/infrastructure/typeorm/entities/order.entities";
 import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
@@ -23,6 +25,9 @@ export class Client implements ClientsModel {
 
   @Column("text")
   phone: string;
+
+  @OneToMany(() => Order, (order) => order.client)
+  orders: Order[];
 
   @CreateDateColumn()
   created_at: Date;

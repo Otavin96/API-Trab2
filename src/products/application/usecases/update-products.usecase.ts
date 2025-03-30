@@ -4,6 +4,7 @@ import { ProductsRepository } from "@/products/repositories/products.repository"
 import { CategoriesRepository } from "@/categories/repositories/categories.repository";
 import { sendMessage } from "@/common/producer/sendMessage";
 import { NotFoundError } from "@/common/domain/erros/not-found-error";
+import { ClientsRepository } from "@/clients/repositories/clients.repository";
 export namespace UpdateProductsUseCase {
   export type Input = {
     id: string;
@@ -24,7 +25,10 @@ export namespace UpdateProductsUseCase {
       private productsRepository: ProductsRepository,
 
       @inject("CategoryRepository")
-      private categoriesRepository: CategoriesRepository
+      private categoriesRepository: CategoriesRepository,
+
+      @inject("ClientRepository")
+      private clientsRepository: ClientsRepository
     ) {}
 
     async execute(input: Input): Promise<Output> {
@@ -43,8 +47,10 @@ export namespace UpdateProductsUseCase {
         product.description = input.description;
       }
 
-      if (input.price && input.price !== product.price) {
-        priceChanged = true;
+      if (input.price) {
+        if (input.price < product.price) {
+          priceChanged = true;
+        }
         product.price = input.price;
       }
 
@@ -62,17 +68,25 @@ export namespace UpdateProductsUseCase {
 
       const updatedProduct = await this.productsRepository.update(product);
 
-      console.log("Teste1")
-
       if (priceChanged) {
-        // 🔹 Agora o e-mail é enviado para a fila do RabbitMQ
-        await sendMessage("email_notifications", {
-            to: "otavio2011afonso@gmail.com",
-            subject: "Preço atualizado!",
-            content: `O produto ${product.name} agora custa R$ ${product.price}`
-          }
+        const emails = await this.clientsRepository.findEmailsByProductId(
+          input.id
         );
-        console.log("E-mail enfileirado no RabbitMQ");
+
+        if (emails.length > 0) {
+          for (const email of emails) {
+            await sendMessage("email_notifications", {
+              to: email,
+              subject: "Preço atualizado!",
+              content: `O produto ${product.name} agora custa R$ ${product.price}`,
+            });
+          }
+          console.log("E-mails enfileirados no RabbitMQ");
+        } else {
+          console.log(
+            "Nenhum cliente comprou este produto, então nenhum e-mail foi enviado."
+          );
+        }
       }
 
       return updatedProduct;

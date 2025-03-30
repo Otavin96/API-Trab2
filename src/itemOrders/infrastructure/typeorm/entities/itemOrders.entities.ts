@@ -1,4 +1,5 @@
 import { ItemOrdersModel } from "@/itemOrders/domain/models/itemOrders.model";
+import { Order } from "@/orders/infrastructure/typeorm/entities/order.entities";
 import { Product } from "@/products/infrastructure/typeorm/entities/products.entities";
 import {
   Column,
@@ -6,6 +7,7 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
@@ -21,9 +23,19 @@ export class ItemOrder implements ItemOrdersModel {
   @Column("numeric")
   valueTotal: number;
 
-  @ManyToOne(() => Product, (product) => product.itemOrders)
+  @ManyToOne(() => Product, (product) => product.itemOrders, {
+    onUpdate: "CASCADE",
+    onDelete: "CASCADE",
+  })
   @JoinColumn({ name: "product_id" })
   product_id: Product;
+
+  @ManyToOne(() => Order, (order) => order.itemOrders, {
+    onUpdate: "CASCADE",
+    onDelete: "CASCADE",
+  })
+  @JoinColumn({ name: "order_id" })
+  order: Order;
 
   @CreateDateColumn()
   created_at: Date;

@@ -14,6 +14,23 @@ export class ClientsTypeormRepository implements ClientsRepository {
     private clientsRepository: Repository<ClientsModel>
   ) {}
 
+  async findEmailsByProductId(productId: string): Promise<string[]> {
+    const emails = await this.clientsRepository
+      .createQueryBuilder("client")
+      .select("client.email")
+      .distinct(true)
+      .innerJoin("client.orders", "order")
+      .innerJoin("order.itemOrders", "itemOrder")
+      .where("itemOrder.product_id = :productId", { productId })
+      .getRawMany();
+
+    emails.map((item) => {
+      console.log("E-mails: " + item.client_email);
+    });
+
+    return emails.map((e) => e.client_email);
+  }
+
   async findByEmail(email: string): Promise<ClientsModel> {
     const client = await this.clientsRepository.findOneBy({ email });
 

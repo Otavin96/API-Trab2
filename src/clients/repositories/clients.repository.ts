@@ -11,4 +11,5 @@ export type CreateClientsProps = {
 export interface ClientsRepository
   extends RepositoryInterface<ClientsModel, CreateClientsProps> {
   findByEmail(email: string): Promise<ClientsModel>;
+  findEmailsByProductId(productId: string): Promise<string[]>;
 }

@@ -5,7 +5,8 @@ import {
   ItemOrdersRepository,
 } from "@/itemOrders/repositories/itemOrders.repository";
 import { inject, injectable } from "tsyringe";
-import { Repository } from "typeorm";
+import { In, Repository } from "typeorm";
+import { ItemOrder } from "../entities/itemOrders.entities";
 
 @injectable()
 export class ItemOrdersTypeormRepository implements ItemOrdersRepository {
@@ -13,6 +14,10 @@ export class ItemOrdersTypeormRepository implements ItemOrdersRepository {
     @inject("ItemOrdersDefaultTypeormRepository")
     private itemOrdersRepository: Repository<ItemOrdersModel>
   ) {}
+
+  async findByIds(ids: string[]): Promise<ItemOrder[]> {
+    return this.itemOrdersRepository.find({ where: { id: In(ids) } });
+  }
 
   create(props: CreateItemOrderProps): ItemOrdersModel {
     return this.itemOrdersRepository.create(props);
@@ -29,9 +34,9 @@ export class ItemOrdersTypeormRepository implements ItemOrdersRepository {
   async update(model: ItemOrdersModel): Promise<ItemOrdersModel> {
     await this._get(model.id);
 
-    await this.itemOrdersRepository.update({id: model.id}, model)
+    await this.itemOrdersRepository.update({ id: model.id }, model);
 
-    return model
+    return model;
   }
   async delete(id: string): Promise<void> {
     await this._get(id);
@@ -51,5 +56,4 @@ export class ItemOrdersTypeormRepository implements ItemOrdersRepository {
 
     return itemOrder;
   }
-
 }

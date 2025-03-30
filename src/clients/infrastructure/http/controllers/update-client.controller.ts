@@ -8,25 +8,25 @@ export async function updateClientController(
   request: Request,
   response: Response
 ) {
-  const updateCategorySchemaParam = z.object({
+  const updateClientSchemaParam = z.object({
     id: z.string(),
   });
 
-  const updateCategorySchemaBody = z.object({
+  const updateClientSchemaBody = z.object({
     name: z.string().optional(),
     description: z.string().optional(),
     email: z.string().optional(),
     phone: z.string().optional(),
   });
 
-  const { id } = dataValidation(updateCategorySchemaParam, request.params);
+  const { id } = dataValidation(updateClientSchemaParam, request.params);
 
   const { cnpj, social_reason, email, phone } = dataValidation(
-    updateCategorySchemaBody,
+    updateClientSchemaBody,
     request.body
   );
 
-  container.resolve("CategoryRepository");
+  container.resolve("ClientRepository");
 
   const updateClientsUseCase: UpdateClientsUseCase.UseCase = container.resolve(
     "UpdateClientsUseCase"
