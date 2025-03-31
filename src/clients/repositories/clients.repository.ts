@@ -12,4 +12,5 @@ export interface ClientsRepository
   extends RepositoryInterface<ClientsModel, CreateClientsProps> {
   findByEmail(email: string): Promise<ClientsModel>;
   findEmailsByProductId(productId: string): Promise<string[]>;
+  generatePDF(data: string[])
 }
