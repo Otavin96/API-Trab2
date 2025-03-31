@@ -13,16 +13,38 @@ export class NodeMailer implements SendMail {
     },
   });
 
-  async sendMail({ to, subject, text }: Email): Promise<void> {
+  async sendMail({
+    to,
+    subject,
+    text,
+    attachmentBuffer,
+  }: Email): Promise<void> {
     // send mail with defined transport object
+    if (!attachmentBuffer) {
+      throw new Error("O buffer do anexo está indefinido.");
+    }
+
+    console.log(`Anexo sendo enviado: ${attachmentBuffer.length} bytes`);
+
+    console.log("attachmentBuffer no sendMessage:", attachmentBuffer);
+
+    console.log(`Tamanho do buffer do anexo: ${attachmentBuffer.length}`);
+
     const info = await this.transporter.sendMail({
       from: env.MAIL, // sender address
       to,
       subject,
       text,
+      attachments: [
+        {
+          filename: "pedido.pdf",
+          content: Buffer.from(attachmentBuffer),
+          contentType: "application/pdf",
+        },
+      ],
     });
 
-    console.log(info)
+    console.log(info);
 
     console.log("Message sent: %s", info.messageId);
     // Message sent: <d786aa62-4e0a-070a-47ed-0b0666549519@ethereal.email>

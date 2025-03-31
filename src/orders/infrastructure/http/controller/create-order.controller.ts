@@ -11,9 +11,10 @@ export async function CreateOrderController(
   const createOrderBodySchema = z.object({
     client: z.string(),
     itemOrders: z.string().array(),
+    payment: z.string(),
   });
 
-  const { client, itemOrders } = dataValidation(
+  const { client, itemOrders, payment } = dataValidation(
     createOrderBodySchema,
     request.body
   );
@@ -27,6 +28,7 @@ export async function CreateOrderController(
   const order = await createOrdersUseCase.execute({
     client,
     itemOrders,
+    payment,
   });
 
   response.status(201).json(order);

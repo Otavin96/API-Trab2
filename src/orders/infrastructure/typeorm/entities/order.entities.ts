@@ -1,12 +1,15 @@
 import { Client } from "@/clients/infrastructure/typeorm/entities/clients.entities";
 import { ItemOrder } from "@/itemOrders/infrastructure/typeorm/entities/itemOrders.entities";
 import { OrderModel } from "@/orders/domain/models/orders.model";
+import { Payment } from "@/payments/infrastructure/typeorm/entities/pagments.entities";
 import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   ManyToOne,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
@@ -27,6 +30,10 @@ export class Order implements OrderModel {
     onUpdate: "CASCADE",
   })
   itemOrders: ItemOrder[];
+
+  @OneToOne(() => Payment, (payment) => payment.order, { onDelete: "CASCADE" }) // Relacionamento One-to-One com Payment
+  @JoinColumn({ name: "payment_id" }) // Define a chave estrangeira no banco de dados
+  payment: Payment;
 
   @Column("decimal")
   valueTotal: number;

@@ -24,12 +24,13 @@ export namespace CreateItemOrdersUseCase {
     ) {}
 
     async execute(input: Input): Promise<Output> {
+      console.log(input.product_id);
       if (input.quantity <= 0 || !input.product_id) {
         throw new BadRequestError("Input data not provider or invalid");
       }
 
       const product = await this.productsRepository.findById(
-        String(input.product_id.id)
+        String(input.product_id)
       );
 
       if (!product) {

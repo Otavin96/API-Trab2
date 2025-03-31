@@ -25,7 +25,7 @@ export class OrderTypeormRepository implements OrderRepository {
 
   async listAll(): Promise<OrderModel[]> {
     return this.orderRepository.find({
-      relations: ["client", "itemOrders"],
+      relations: ["client", "itemOrders", "payment"],
     });
   }
 
@@ -46,7 +46,7 @@ export class OrderTypeormRepository implements OrderRepository {
   protected async _get(id: string): Promise<OrderModel> {
     const order = await this.orderRepository.findOne({
       where: { id },
-      relations: ["client", "itemOrders"],
+      relations: ["client", "itemOrders", "payment"],
     });
 
     if (!order) {
