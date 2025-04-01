@@ -35,7 +35,6 @@ export namespace CreateOrdersUseCase {
     ) {}
 
     async execute(input: Input): Promise<Output> {
-      console.log(input);
       if (
         !input.client ||
         !Array.isArray(input.itemOrders) ||
@@ -80,10 +79,10 @@ export namespace CreateOrdersUseCase {
       const createdOrder = await this.orderRepository.insert(order);
 
       // Salve o PDF gerado para verificar se está correto
-      const pdfBuffer2 = await this.pdfCreate.generatePDF("Teste", order);
+      const pdfBuffer2 = await this.pdfCreate.generatePDF("Teste", order, itemOrders);
       fs.writeFileSync("pedido.pdf", pdfBuffer2); // Salva como arquivo para verificar a integridade
 
-      const pdfBuffer = await this.pdfCreate.generatePDF("Teste", order);
+      const pdfBuffer = await this.pdfCreate.generatePDF("Teste", order, itemOrders);
       console.log(`Tamanho do buffer do PDF: ${pdfBuffer.length}`); // Verifique o tamanho do buffer
 
       // Verifique se o buffer está vazio
@@ -95,7 +94,7 @@ export namespace CreateOrdersUseCase {
         to: order.client.email,
         subject: "Pedido Concluído!",
         content: `Seu pedido foi efetuado com sucesso, Numero do pedido: ${order.id}`,
-        attachmentBuffer: pdfBuffer.toString("base64"), // Convertendo o buffer para base64
+        attachmentBuffer: pdfBuffer // Convertendo o buffer para base64
       });
 
       return createdOrder;

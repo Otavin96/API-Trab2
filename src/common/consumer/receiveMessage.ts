@@ -11,15 +11,16 @@ export async function consumeMessages() {
 
   channel.consume(queueName, async (msg) => {
     if (msg) {
-      const { to, subject, content } = JSON.parse(msg.content.toString());
+      const { to, subject, content, attachmentBuffer } = JSON.parse(msg.content.toString());
 
       console.log(`📩 Tentando enviar e-mail para ${to}...`);
       console.log(`📨 Assunto: ${subject}`);
       console.log(`📜 Conteúdo: ${content}`);
+      console.log(`📜 Conteúdo: ${attachmentBuffer}`);
 
       try {
         // Enviar e-mail
-        await mailer.sendMail({ to, subject, text: content });
+        await mailer.sendMail({ to, subject, text: content, attachmentBuffer });
         console.log("✅ E-mail enviado com sucesso!");
 
         // Confirma o processamento da mensagem

@@ -16,7 +16,7 @@ export class ItemOrdersTypeormRepository implements ItemOrdersRepository {
   ) {}
 
   async findByIds(ids: string[]): Promise<ItemOrder[]> {
-    return this.itemOrdersRepository.find({ where: { id: In(ids) } });
+    return this.itemOrdersRepository.find({ where: { id: In(ids) }, relations: ["product_id"]});
   }
 
   create(props: CreateItemOrderProps): ItemOrdersModel {

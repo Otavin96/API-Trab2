@@ -29,6 +29,7 @@ export class Order implements OrderModel {
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
   })
+  @JoinColumn({name: "itemOrders_id"})
   itemOrders: ItemOrder[];
 
   @OneToOne(() => Payment, (payment) => payment.order, { onDelete: "CASCADE" }) // Relacionamento One-to-One com Payment
