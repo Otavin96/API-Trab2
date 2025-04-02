@@ -3,45 +3,63 @@ import { NodeMailer } from "../infrastructure/http/nodemailer/nodemailer-provide
 import { env } from "../infrastructure/env";
 
 export async function consumeMessages() {
-  const { connection, channel } = await connectRabbitMQ();
-  const mailer = new NodeMailer();
-  const queueName = env.QUEUE_NAME || "email_notifications";
+  try {
+    const { connection, channel } = await connectRabbitMQ();
+    const mailer = new NodeMailer();
+    const queueName = env.QUEUE_NAME || "email_notifications";
 
-  console.log(`Escutando a fila "${queueName}"...`);
+    await channel.prefetch(1); // Garante processamento de uma mensagem por vez
+    console.log(`📩 Escutando a fila "${queueName}"...`);
 
-  channel.consume(queueName, async (msg) => {
-    if (msg) {
-      const { to, subject, content, attachmentBuffer } = JSON.parse(msg.content.toString());
+    channel.consume(queueName, async (msg) => {
+      if (msg) {
+        try {
+          const { to, subject, content, attachmentBuffer, attachmentName, attachmentType } = JSON.parse(msg.content.toString());
 
-      console.log(`📩 Tentando enviar e-mail para ${to}...`);
-      console.log(`📨 Assunto: ${subject}`);
-      console.log(`📜 Conteúdo: ${content}`);
-      console.log(`📜 Conteúdo: ${attachmentBuffer}`);
+          if (!to || !subject || !content) {
+            console.warn("⚠️ Mensagem inválida recebida e ignorada.");
+            channel.nack(msg, false, false); // Rejeita a mensagem sem reencaminhar
+            return;
+          }
 
-      try {
-        // Enviar e-mail
-        await mailer.sendMail({ to, subject, text: content, attachmentBuffer });
-        console.log("✅ E-mail enviado com sucesso!");
+          console.log(`📩 Tentando enviar e-mail para ${to}...`);
+          console.log(`📨 Assunto: ${subject}`);
 
-        // Confirma o processamento da mensagem
-        channel.ack(msg);
-      } catch (error) {
-        console.error("❌ Erro ao enviar e-mail:", error);
+          if (attachmentBuffer) {
+            console.log(`📎 Enviando e-mail com anexo (${attachmentName || "Sem nome"})...`);
+            await mailer.sendMailOrder({
+              to,
+              subject,
+              text: content,
+              attachmentBuffer,
+              attachmentName,
+              attachmentType,
+            });
+          } else {
+            console.log(`📧 Enviando e-mail sem anexo...`);
+            await mailer.sendMailProduct({ to, subject, text: content });
+          }
 
-        // Rejeita a mensagem sem reenviá-la para evitar loop infinito
-        channel.nack(msg, false, false);
+          console.log("✅ E-mail enviado com sucesso!");
+          channel.ack(msg);
+        } catch (error) {
+          console.error("❌ Erro ao processar mensagem:", error);
+          channel.nack(msg, false, false); // Rejeita a mensagem para evitar reprocessamento infinito
+        }
       }
-    }
-  });
+    });
 
-  // Garantir que o consumidor esteja sempre escutando e processando mensagens
-  process.on("SIGINT", async () => {
-    console.log("Fechando conexão com o RabbitMQ...");
-    await channel.close();
-    await connection.close();
-    console.log("Conexão com RabbitMQ fechada.");
-    process.exit(0);
-  });
+    process.on("SIGINT", async () => {
+      console.log("🔌 Fechando conexão com o RabbitMQ...");
+      await channel.close();
+      await connection.close();
+      console.log("✅ Conexão com RabbitMQ fechada.");
+      process.exit(0);
+    });
+  } catch (error) {
+    console.error("🚨 Erro ao conectar ao RabbitMQ:", error);
+    process.exit(1);
+  }
 }
 
 // Iniciar o consumidor

@@ -2,7 +2,6 @@ import PDFDocument from "pdfkit";
 import { CreatePDF } from "@/common/providers/pdfcreate-provider";
 import { OrderModel } from "@/orders/domain/models/orders.model";
 import { injectable } from "tsyringe";
-import { ItemOrdersModel } from "@/itemOrders/domain/models/itemOrders.model";
 
 @injectable()
 export class PDF implements CreatePDF {
@@ -40,10 +39,12 @@ export class PDF implements CreatePDF {
 
     doc.fontSize(14).text("Itens do Pedido:", { underline: true }).moveDown();
     products.forEach((product, index) => {
-      doc.fontSize(12).text(`${index + 1}. Produto: ${product.name}`);
-      doc.fontSize(12).text(`${index + 1}. Valor: ${product.price}`);
-      doc.fontSize(12).text(`${index + 1}. Quantidade: ${product.quantity}`).moveDown(2);
+      doc.fontSize(12).text(`Produto: ${product.name}`);
+      doc.fontSize(12).text(`Valor: ${product.price}`);
+      doc.fontSize(12).text(`Quantidade: ${product.quantity}`).moveDown(2);
     });
+
+    doc.fontSize(14).text("Itens do Pedido:", { underline: true }).moveDown();
 
     doc.end();
 

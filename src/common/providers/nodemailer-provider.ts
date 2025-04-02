@@ -3,7 +3,10 @@ export interface Email {
   subject: string;
   text: string;
   attachmentBuffer?: Buffer;
+  attachmentName?: string;
+  attachmentType?: any;
 }
 export interface SendMail {
-  sendMail(data: Email): Promise<void>;
+  sendMailOrder(data: Email): Promise<void>;
+  sendMailProduct(data: Email): Promise<void>
 }
