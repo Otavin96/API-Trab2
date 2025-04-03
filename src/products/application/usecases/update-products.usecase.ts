@@ -2,9 +2,9 @@ import { inject, injectable } from "tsyringe";
 import { ProductOutput } from "../dtos/product-output.dtoo";
 import { ProductsRepository } from "@/products/repositories/products.repository";
 import { CategoriesRepository } from "@/categories/repositories/categories.repository";
-import { sendMessage } from "@/common/producer/sendMessage";
 import { NotFoundError } from "@/common/domain/erros/not-found-error";
 import { ClientsRepository } from "@/clients/repositories/clients.repository";
+import { sendMessage } from "@/common/infrastructure/producer/sendMessage";
 export namespace UpdateProductsUseCase {
   export type Input = {
     id: string;

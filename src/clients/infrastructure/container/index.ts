@@ -8,8 +8,11 @@ import { GetClientsUseCase } from "@/clients/application/usecases/get-clients.us
 import { UpdateClientsUseCase } from "@/clients/application/usecases/update-clients.usecase";
 import { DeleteClientsUseCase } from "@/clients/application/usecases/delete-clients.usecase";
 import { GetEmailClientsUseCase } from "@/clients/application/usecases/getEmail-clients.usecase";
+import { BcryptjsHashProvider } from "@/common/infrastructure/providers/hash-provider/bcryptjs-hash.provider";
 
 container.registerSingleton("ClientRepository", ClientsTypeormRepository);
+
+container.registerSingleton("HashProvider", BcryptjsHashProvider);
 
 container.registerSingleton(
   "CreateClientsUseCase",

@@ -1,4 +1,4 @@
-import { connectRabbitMQ } from "../infrastructure/rabbitmq/config/rabbitmq";
+import { connectRabbitMQ } from "../../infrastructure/rabbitmq/config/rabbitmq";
 
 let rabbitConnection: any = null;
 let rabbitChannel: any = null;
@@ -12,7 +12,9 @@ export async function sendMessage(queueName: string, data: any) {
     }
 
     const message = JSON.stringify(data);
-    rabbitChannel.sendToQueue(queueName, Buffer.from(message), { persistent: true });
+    rabbitChannel.sendToQueue(queueName, Buffer.from(message), {
+      persistent: true,
+    });
 
     console.log(`📩 Mensagem adicionada na fila "${queueName}":`, data);
   } catch (error) {

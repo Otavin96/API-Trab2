@@ -5,9 +5,9 @@ import { OrderRepository } from "../../repositories/order.repository";
 import { ItemOrdersRepository } from "@/itemOrders/repositories/itemOrders.repository";
 import { ClientsRepository } from "@/clients/repositories/clients.repository";
 import { Payment } from "@/payments/infrastructure/typeorm/entities/pagments.entities";
-import { PDF } from "@/common/infrastructure/http/pdf/create-pdf-provider";
-import { sendMessage } from "@/common/producer/sendMessage";
 import fs from "fs";
+import { PDF } from "@/common/infrastructure/providers/pdf/create-pdf-provider";
+import { sendMessage } from "@/common/infrastructure/producer/sendMessage";
 
 export namespace CreateOrdersUseCase {
   export type Input = {
@@ -79,10 +79,18 @@ export namespace CreateOrdersUseCase {
       const createdOrder = await this.orderRepository.insert(order);
 
       // Salve o PDF gerado para verificar se está correto
-      const pdfBuffer2 = await this.pdfCreate.generatePDF("Teste", order, itemOrders);
+      const pdfBuffer2 = await this.pdfCreate.generatePDF(
+        "Teste",
+        order,
+        itemOrders
+      );
       fs.writeFileSync("pedido.pdf", pdfBuffer2); // Salva como arquivo para verificar a integridade
 
-      const pdfBuffer = await this.pdfCreate.generatePDF("Teste", order, itemOrders);
+      const pdfBuffer = await this.pdfCreate.generatePDF(
+        "Teste",
+        order,
+        itemOrders
+      );
       console.log(`Tamanho do buffer do PDF: ${pdfBuffer.length}`); // Verifique o tamanho do buffer
 
       // Verifique se o buffer está vazio
@@ -94,7 +102,7 @@ export namespace CreateOrdersUseCase {
         to: order.client.email,
         subject: "Pedido Concluído!",
         content: `Seu pedido foi efetuado com sucesso, Numero do pedido: ${order.id}`,
-        attachmentBuffer: pdfBuffer // Convertendo o buffer para base64
+        attachmentBuffer: pdfBuffer, // Convertendo o buffer para base64
       });
 
       return createdOrder;

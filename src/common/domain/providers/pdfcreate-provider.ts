@@ -1,4 +1,3 @@
-import { ItemOrdersModel } from "@/itemOrders/domain/models/itemOrders.model";
 import { OrderModel } from "@/orders/domain/models/orders.model";
 
 export interface CreatePDF {

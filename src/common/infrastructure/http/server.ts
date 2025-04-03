@@ -3,7 +3,7 @@ import { env } from "../env";
 import { dataSource } from "../typeorm";
 import "@/common/infrastructure/container";
 import { connectRabbitMQ } from "../rabbitmq/config/rabbitmq";
-import { consumeMessages } from "../../consumer/receiveMessage"
+import { consumeMessages } from "../consumer/receiveMessage";
 
 async function startServer() {
   try {

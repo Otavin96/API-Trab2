@@ -1,6 +1,6 @@
-import { connectRabbitMQ } from "../infrastructure/rabbitmq/config/rabbitmq";
-import { NodeMailer } from "../infrastructure/http/nodemailer/nodemailer-provider";
-import { env } from "../infrastructure/env";
+import { connectRabbitMQ } from "../../infrastructure/rabbitmq/config/rabbitmq";
+import { env } from "../../infrastructure/env";
+import { NodeMailer } from "../providers/nodemailer/nodemailer-provider";
 
 export async function consumeMessages() {
   try {
@@ -14,7 +14,14 @@ export async function consumeMessages() {
     channel.consume(queueName, async (msg) => {
       if (msg) {
         try {
-          const { to, subject, content, attachmentBuffer, attachmentName, attachmentType } = JSON.parse(msg.content.toString());
+          const {
+            to,
+            subject,
+            content,
+            attachmentBuffer,
+            attachmentName,
+            attachmentType,
+          } = JSON.parse(msg.content.toString());
 
           if (!to || !subject || !content) {
             console.warn("⚠️ Mensagem inválida recebida e ignorada.");
@@ -26,7 +33,9 @@ export async function consumeMessages() {
           console.log(`📨 Assunto: ${subject}`);
 
           if (attachmentBuffer) {
-            console.log(`📎 Enviando e-mail com anexo (${attachmentName || "Sem nome"})...`);
+            console.log(
+              `📎 Enviando e-mail com anexo (${attachmentName || "Sem nome"})...`
+            );
             await mailer.sendMailOrder({
               to,
               subject,
