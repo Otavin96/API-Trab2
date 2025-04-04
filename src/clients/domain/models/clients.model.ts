@@ -5,6 +5,7 @@ export interface ClientsModel {
   cnpj: string;
   social_reason: string;
   email: string;
+  password: string;
   phone: string;
   orders: Order[];
   created_at: Date;

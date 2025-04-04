@@ -7,6 +7,8 @@ import "@/orders/infrastructure/container";
 import { container } from "tsyringe";
 import { NodeMailer } from "../providers/nodemailer/nodemailer-provider";
 import { PDF } from "../providers/pdf/create-pdf-provider";
+import { BcryptjsHashProvider } from "../providers/hash-provider/bcryptjs-hash.provider";
 
 container.registerSingleton("NodeMailer", NodeMailer);
 container.registerSingleton("PDFCreate", PDF);
+container.registerSingleton("HashProvider", BcryptjsHashProvider);

@@ -12,10 +12,11 @@ export async function CreateClientController(
     cnpj: z.string(),
     social_reason: z.string(),
     email: z.string(),
+    password: z.string(),
     phone: z.string(),
   });
 
-  const { cnpj, social_reason, email, phone } = dataValidation(
+  const { cnpj, social_reason, email, password, phone } = dataValidation(
     createClientBodySchema,
     request.body
   );
@@ -29,6 +30,7 @@ export async function CreateClientController(
     cnpj,
     social_reason,
     email,
+    password,
     phone,
   });
 

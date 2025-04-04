@@ -5,6 +5,7 @@ import { listAllClientController } from "../controllers/listAll-client.controlle
 import { deleteClientController } from "../controllers/delete-client.controller";
 import { updateClientController } from "../controllers/update-client.controller";
 import { getEmailClientController } from "../controllers/getEmail-client.controller";
+import { AuthenticateClientController } from "../controllers/authenticate-client.controller";
 
 const clientRouter = Router();
 
@@ -30,6 +31,10 @@ clientRouter.put("/:id", async (req, res) => {
 
 clientRouter.delete("/:id", async (req, res) => {
   deleteClientController(req, res);
+});
+
+clientRouter.post("/authentication", async (req, res) => {
+  AuthenticateClientController(req, res);
 });
 
 export { clientRouter };

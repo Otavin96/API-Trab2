@@ -2,12 +2,15 @@ import { inject, injectable } from "tsyringe";
 import { ClientOutput } from "../dtos/client-output.dto";
 import { ClientsRepository } from "@/clients/repositories/clients.repository";
 import { BadRequestError } from "@/common/domain/erros/badRequest-error";
+import { BcryptjsHashProvider } from "@/common/infrastructure/providers/hash-provider/bcryptjs-hash.provider";
+import { HashProvider } from "@/common/domain/providers/hash-provider";
 
 export namespace CreateClientsUsecase {
   export type Input = {
     cnpj: string;
     social_reason: string;
     email: string;
+    password: string;
     phone: string;
   };
 
@@ -17,15 +20,28 @@ export namespace CreateClientsUsecase {
   export class UseCase {
     constructor(
       @inject("ClientRepository")
-      private clientsRepository: ClientsRepository
+      private clientsRepository: ClientsRepository,
+
+      @inject("HashProvider")
+      private hashProvider: HashProvider
     ) {}
 
     async execute(input: Input): Promise<Output> {
-      if (!input.cnpj || !input.social_reason || !input.email || !input.phone) {
+      if (
+        !input.cnpj ||
+        !input.social_reason ||
+        !input.email ||
+        !input.password ||
+        !input.phone
+      ) {
         throw new BadRequestError("Input data not provided or invalid");
       }
 
+      const passwordHash = await this.hashProvider.generateHash(input.password);
+
       const client = this.clientsRepository.create(input);
+
+      Object.assign(client, { password: passwordHash });
 
       const createdClient: ClientOutput =
         await this.clientsRepository.insert(client);

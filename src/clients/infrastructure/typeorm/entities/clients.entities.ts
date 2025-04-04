@@ -24,6 +24,9 @@ export class Client implements ClientsModel {
   email: string;
 
   @Column("text")
+  password: string;
+
+  @Column("text")
   phone: string;
 
   @OneToMany(() => Order, (order) => order.client)
