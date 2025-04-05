@@ -1,4 +1,5 @@
 import { AuthenticationUseCase } from "@/clients/application/usecases/authentication.usecase";
+import { AuthProvider } from "@/common/domain/providers/auth-provider";
 import { dataValidation } from "@/common/infrastructure/validation/zod/index";
 import { Request, Response } from "express";
 import { container } from "tsyringe";
@@ -23,13 +24,14 @@ export async function AuthenticateClientController(
 
   const client = await authenticationUseCase.execute({ email, password });
 
-  //   const authProviderJwt: AuthProviderJwt = container.resolve("AuthProviderJwt");
+  const authProviderJwt: AuthProvider = container.resolve("AuthProviderJwt");
 
-  //   const access_token = authProviderJwt.generateAuthKey(user.id, user.roles);
+  const access_token = authProviderJwt.generateAuthKey(client.id);
 
   response.status(200).json([
     {
       message: `Cliente logado com sucesso! Seja bem vindo ${client.social_reason}`,
+      token: access_token,
     },
   ]);
 }

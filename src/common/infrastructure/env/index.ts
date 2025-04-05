@@ -19,6 +19,7 @@ const envSchema = z.object({
   DB_USER: z.string().default("postgres"),
   DB_PASS: z.string().default("postgres"),
   MY_SECRET: z.string(),
+  JWT_EXPIRES_IN: z.string(),
   MAIL: z.string(),
   PASS_MAIL: z.string(),
   RABBITMQ_URL: z.string().default("amqp://guest:guest@localhost:5672"),
