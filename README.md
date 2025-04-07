@@ -15,3 +15,6 @@ npm run dev
 npm run typeorm -- migration:generate src/common/infrastructure/typeorm/migrations/CreateDatabase -- -d src/common/infrastructure/typeorm/index.ts
 
 npm run typeorm:migrate
+
+
+https://www.youtube.com/watch?v=AClyxTbfI08
