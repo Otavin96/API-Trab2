@@ -5,6 +5,7 @@ export type ClientOutput = {
   email: string;
   password: string;
   phone: string;
+  roles: StatusPermission
   created_at: Date;
   updated_at: Date;
 };
