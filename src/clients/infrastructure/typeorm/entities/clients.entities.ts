@@ -29,6 +29,9 @@ export class Client implements ClientsModel {
   @Column("text")
   phone: string;
 
+  @Column({ type: 'enum', enum: StatusPermission })
+  roles: StatusPermission;
+
   @OneToMany(() => Order, (order) => order.client)
   orders: Order[];
 
