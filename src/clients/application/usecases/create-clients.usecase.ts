@@ -4,6 +4,7 @@ import { ClientsRepository } from "@/clients/repositories/clients.repository";
 import { BadRequestError } from "@/common/domain/erros/badRequest-error";
 import { BcryptjsHashProvider } from "@/common/infrastructure/providers/hash-provider/bcryptjs-hash.provider";
 import { HashProvider } from "@/common/domain/providers/hash-provider";
+import { StatusPermission } from "@/clients/domain/models/clients.model";
 
 export namespace CreateClientsUsecase {
   export type Input = {
@@ -12,6 +13,7 @@ export namespace CreateClientsUsecase {
     email: string;
     password: string;
     phone: string;
+    roles: StatusPermission
   };
 
   export type Output = ClientOutput;

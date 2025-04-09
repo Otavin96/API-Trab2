@@ -12,7 +12,7 @@ export interface ClientsModel {
   email: string;
   password: string;
   phone: string;
-  roles: StatusPermission;
+  roles?: StatusPermission;
   orders: Order[];
   created_at: Date;
   updated_at: Date;

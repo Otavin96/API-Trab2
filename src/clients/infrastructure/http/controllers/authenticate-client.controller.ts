@@ -30,8 +30,8 @@ export async function AuthenticateClientController(
 
   response.status(200).json([
     {
-      message: `Cliente logado com sucesso! Seja bem vindo ${client.social_reason}`,
-      token: access_token,
+      client,
+      access_token,
     },
   ]);
 }
