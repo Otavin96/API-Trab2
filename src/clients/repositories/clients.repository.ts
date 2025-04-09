@@ -7,6 +7,7 @@ export type CreateClientsProps = {
   email: string;
   password: string;
   phone: string;
+  roles: StatusPermission;
 };
 
 export interface ClientsRepository
