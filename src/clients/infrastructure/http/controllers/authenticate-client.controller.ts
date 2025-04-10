@@ -26,12 +26,7 @@ export async function AuthenticateClientController(
 
   const authProviderJwt: AuthProvider = container.resolve("AuthProviderJwt");
 
-  const access_token = authProviderJwt.generateAuthKey(client.id);
+  const access_token = authProviderJwt.generateAuthKey(client.id, client.roles);
 
-  response.status(200).json([
-    {
-      client,
-      access_token,
-    },
-  ]);
+  response.status(200).json({client, access_token});
 }

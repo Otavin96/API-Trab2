@@ -43,6 +43,10 @@ export namespace CreateClientsUsecase {
 
       const client = this.clientsRepository.create(input);
 
+      if(!client.roles) {
+        client.roles = StatusPermission.CLIENT
+      }
+
       Object.assign(client, { password: passwordHash });
 
       const createdClient: ClientOutput =

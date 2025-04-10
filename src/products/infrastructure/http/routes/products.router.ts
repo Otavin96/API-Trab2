@@ -8,11 +8,11 @@ import { isAuth } from "@/common/infrastructure/http/middlewares/isAuth";
 
 const productRouter = Router();
 
-productRouter.post("/", isAuth, async (req, res) => {
+productRouter.post("/", async (req, res) => {
   createProductController(req, res);
 });
 
-productRouter.get("/", isAuth, async (req, res) => {
+productRouter.get("/", async (req, res) => {
   listAllProductController(req, res);
 });
 

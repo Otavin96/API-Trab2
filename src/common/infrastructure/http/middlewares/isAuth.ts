@@ -17,13 +17,14 @@ export function isAuth(
   const [, access_token] = authHeader.split(" ");
 
   const authProviderJwt: JwtAuthProvider = container.resolve("AuthProviderJwt");
-  const { client_id } = authProviderJwt.verifyAuthKey(access_token);
+  const { client_id, roles } = authProviderJwt.verifyAuthKey(access_token);
   if (!client_id) {
     throw new BadRequestError("Invalid token");
   }
 
   request.client = {
     id: client_id,
+    roles: roles,
   };
 
   return _next();

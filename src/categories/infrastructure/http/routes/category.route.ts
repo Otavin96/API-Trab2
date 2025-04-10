@@ -8,23 +8,23 @@ import { isAuth } from "@/common/infrastructure/http/middlewares/isAuth";
 
 const categoriesRouter = Router();
 
-categoriesRouter.post("/", isAuth, async (req, res) => {
+categoriesRouter.post("/", async (req, res) => {
   await createCategoryController(req, res);
 });
 
-categoriesRouter.get("/:id", isAuth, async (req, res) => {
+categoriesRouter.get("/:id", async (req, res) => {
   await getCategoryController(req, res);
 });
 
-categoriesRouter.get("/", isAuth, async (req, res) => {
+categoriesRouter.get("/", async (req, res) => {
   await listAllCategoryController(req, res);
 });
 
-categoriesRouter.put("/:id", isAuth, async (req, res) => {
+categoriesRouter.put("/:id", async (req, res) => {
   await updateCategoryController(req, res);
 });
 
-categoriesRouter.delete("/:id", isAuth, async (req, res) => {
+categoriesRouter.delete("/:id", async (req, res) => {
   await deleteCategoryController(req, res);
 });
 
