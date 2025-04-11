@@ -1,4 +1,4 @@
-import { ClientsModel } from "@/clients/domain/models/clients.model";
+import { ClientsModel, StatusPermission } from "@/clients/domain/models/clients.model";
 import { Order } from "@/orders/infrastructure/typeorm/entities/order.entities";
 import {
   Column,
@@ -28,6 +28,9 @@ export class Client implements ClientsModel {
 
   @Column("text")
   phone: string;
+
+  @Column({ type: 'enum', enum: StatusPermission})
+  roles: StatusPermission;
 
   @OneToMany(() => Order, (order) => order.client)
   orders: Order[];

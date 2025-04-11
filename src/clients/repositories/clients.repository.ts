@@ -1,5 +1,5 @@
 import { RepositoryInterface } from "@/common/domain/repositories/repository.interface";
-import { ClientsModel } from "../domain/models/clients.model";
+import { ClientsModel, StatusPermission } from "../domain/models/clients.model";
 
 export type CreateClientsProps = {
   cnpj: string;
@@ -7,6 +7,7 @@ export type CreateClientsProps = {
   email: string;
   password: string;
   phone: string;
+  roles?: StatusPermission;
 };
 
 export interface ClientsRepository
