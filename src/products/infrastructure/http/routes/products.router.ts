@@ -20,6 +20,10 @@ productRouter.get("/:id", async (req, res) => {
   getProductController(req, res);
 });
 
+productRouter.get("/:category_id", async (req, res) => {
+  listAllProductController(req, res);
+});
+
 productRouter.put("/:id", async (req, res) => {
   updateProductController(req, res);
 });

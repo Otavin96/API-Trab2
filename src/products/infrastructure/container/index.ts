@@ -7,6 +7,7 @@ import { ListAllProductsUseCase } from "@/products/application/usecases/listAll-
 import { GetProductsUseCase } from "@/products/application/usecases/get-products.usecase";
 import { UpdateProductsUseCase } from "@/products/application/usecases/update-products.usecase";
 import { DeleteProductsUseCase } from "@/products/application/usecases/delete-products.usecase";
+import { ListProductByCategoryUseCase } from "@/products/application/usecases/listProductsByCategory.usecase";
 
 container.registerSingleton("ProductRepository", ProductsTypeormRepository);
 
@@ -23,6 +24,11 @@ container.registerSingleton(
 container.registerSingleton(
   "ListAllProductsUseCase",
   ListAllProductsUseCase.UseCase
+);
+
+container.registerSingleton(
+  "ListProductByCategoryUseCase",
+  ListProductByCategoryUseCase.UseCase
 );
 
 container.registerSingleton("GetProductsUseCase", GetProductsUseCase.UseCase);
