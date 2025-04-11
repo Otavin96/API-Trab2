@@ -14,6 +14,10 @@ export class ClientsTypeormRepository implements ClientsRepository {
     private clientsRepository: Repository<ClientsModel>
   ) {}
 
+  authentication(email: string, password: string): Promise<void> {
+    throw new Error("Method not implemented.");
+  }
+
   async findEmailsByProductId(productId: string): Promise<string[]> {
     const emails = await this.clientsRepository
       .createQueryBuilder("client")

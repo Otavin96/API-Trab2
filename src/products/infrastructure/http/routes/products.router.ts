@@ -8,23 +8,23 @@ import { isAuth } from "@/common/infrastructure/http/middlewares/isAuth";
 
 const productRouter = Router();
 
-productRouter.post("/", isAuth, async (req, res) => {
+productRouter.post("/", async (req, res) => {
   createProductController(req, res);
 });
 
-productRouter.get("/", isAuth, async (req, res) => {
+productRouter.get("/", async (req, res) => {
   listAllProductController(req, res);
 });
 
-productRouter.get("/:id", isAuth, async (req, res) => {
+productRouter.get("/:id", async (req, res) => {
   getProductController(req, res);
 });
 
-productRouter.put("/:id", isAuth, async (req, res) => {
+productRouter.put("/:id", async (req, res) => {
   updateProductController(req, res);
 });
 
-productRouter.delete("/:id", isAuth, async (req, res) => {
+productRouter.delete("/:id", async (req, res) => {
   deleteProductController(req, res);
 });
 

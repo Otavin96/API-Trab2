@@ -1,3 +1,4 @@
+import { Category } from "@/categories/infrastructure/typeorm/entities/category.entities";
 import { ConflictError } from "@/common/domain/erros/conflict-error";
 import { NotFoundError } from "@/common/domain/erros/not-found-error";
 import { ProductsModel } from "@/products/domain/models/products.model";
@@ -14,6 +15,18 @@ export class ProductsTypeormRepository implements ProductsRepository {
     @inject("ProductsDefaultTypeormRepository")
     private productsRepository: Repository<ProductsModel>
   ) {}
+
+  async listProductByCategory(category_id: Category): Promise<ProductsModel[]> {
+    const products = await this.productsRepository.find({
+      where: { category_id },
+    });
+
+    if (!products) {
+      throw new NotFoundError(`Products not found using ${category_id}`);
+    }
+
+    return products;
+  }
 
   async listAll(): Promise<ProductsModel[]> {
     return this.productsRepository.find({ relations: ["category_id"] });

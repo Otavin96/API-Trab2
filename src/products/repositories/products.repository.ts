@@ -15,4 +15,5 @@ export interface ProductsRepository
   extends RepositoryInterface<ProductsModel, CreateProductsProps> {
   findByName(name: string): Promise<ProductsModel>;
   conflictingName(name: string): Promise<void>;
+  listProductByCategory(category_id: Category): Promise<ProductsModel[]>;
 }

@@ -28,10 +28,5 @@ export async function AuthenticateClientController(
 
   const access_token = authProviderJwt.generateAuthKey(client.id);
 
-  response.status(200).json([
-    {
-      message: `Cliente logado com sucesso! Seja bem vindo ${client.social_reason}`,
-      token: access_token,
-    },
-  ]);
+  response.status(200).json({ client, access_token });
 }

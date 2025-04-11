@@ -14,7 +14,7 @@ clientRouter.post("/", async (req, res) => {
   CreateClientController(req, res);
 });
 
-clientRouter.get("/", isAuth, async (req, res) => {
+clientRouter.get("/", async (req, res) => {
   listAllClientController(req, res);
 });
 

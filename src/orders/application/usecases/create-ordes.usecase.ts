@@ -79,18 +79,10 @@ export namespace CreateOrdersUseCase {
       const createdOrder = await this.orderRepository.insert(order);
 
       // Salve o PDF gerado para verificar se está correto
-      const pdfBuffer2 = await this.pdfCreate.generatePDF(
-        "Teste",
-        order,
-        itemOrders
-      );
+      const pdfBuffer2 = await this.pdfCreate.generatePDF("Teste", order);
       fs.writeFileSync("pedido.pdf", pdfBuffer2); // Salva como arquivo para verificar a integridade
 
-      const pdfBuffer = await this.pdfCreate.generatePDF(
-        "Teste",
-        order,
-        itemOrders
-      );
+      const pdfBuffer = await this.pdfCreate.generatePDF("Teste", order);
       console.log(`Tamanho do buffer do PDF: ${pdfBuffer.length}`); // Verifique o tamanho do buffer
 
       // Verifique se o buffer está vazio
