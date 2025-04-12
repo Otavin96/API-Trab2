@@ -28,9 +28,5 @@ export async function AuthenticateClientController(
 
   const access_token = authProviderJwt.generateAuthKey(client.id, client.roles);
 
-<<<<<<< HEAD
   response.status(200).json({ client, access_token });
-=======
-  response.status(200).json({client, access_token});
->>>>>>> 2a614cd8b6049e00be8aab9fc690577f68b3394b
 }

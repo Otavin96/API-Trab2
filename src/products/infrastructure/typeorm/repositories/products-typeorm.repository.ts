@@ -1,24 +1,30 @@
 import { Category } from "@/categories/infrastructure/typeorm/entities/category.entities";
 import { ConflictError } from "@/common/domain/erros/conflict-error";
 import { NotFoundError } from "@/common/domain/erros/not-found-error";
+import { SearchInput, SearchOutput } from "@/common/domain/repositories/repository.interface";
 import { ProductsModel } from "@/products/domain/models/products.model";
 import {
   CreateProductsProps,
   ProductsRepository,
 } from "@/products/repositories/products.repository";
 import { inject, injectable } from "tsyringe";
-import { Repository } from "typeorm";
+import { ILike, Repository } from "typeorm";
 
 @injectable()
 export class ProductsTypeormRepository implements ProductsRepository {
+  
+  sortableFields: string[] = ['name', 'created_at']
+
   constructor(
     @inject("ProductsDefaultTypeormRepository")
     private productsRepository: Repository<ProductsModel>
   ) {}
 
   async listProductByCategory(category_id: Category): Promise<ProductsModel[]> {
+
     const products = await this.productsRepository.find({
       where: { category_id },
+      relations: ["category_id"]
     });
 
     if (!products) {
@@ -77,6 +83,29 @@ export class ProductsTypeormRepository implements ProductsRepository {
     await this.productsRepository.delete(id);
   }
 
+
+  async search(props: SearchInput): Promise<SearchOutput<ProductsModel>> {
+    const validSort = this.sortableFields.includes(props.sort) || false
+    const dirOps = ['asc', 'desc']
+    const validSortDir = (props.sort_dir && dirOps.includes(props.sort_dir.toLowerCase())) || false
+    const orderByField = validSort ? props.sort : 'created_at'
+    const orderByDir = validSort ? props.sort_dir : 'desc'
+
+    const [products, total] = await this.productsRepository.findAndCount({
+      ...(props.filter && {where: {name: ILike(props.filter)}}),
+      order: {[orderByField]: orderByDir},
+      skip: (props.page - 1) * props.per_page,
+      take: props.per_page
+    })
+
+    return {
+      items: products,
+      per_page: props.per_page,
+      total,
+      current_page: props
+    }
+  }
+
   protected async _get(id: string): Promise<ProductsModel> {
     const product = await this.productsRepository.findOne({
       where: { id },
@@ -89,4 +118,6 @@ export class ProductsTypeormRepository implements ProductsRepository {
 
     return product;
   }
+
+
 }

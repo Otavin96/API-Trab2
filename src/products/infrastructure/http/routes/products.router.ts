@@ -12,7 +12,7 @@ productRouter.post("/", async (req, res) => {
   createProductController(req, res);
 });
 
-productRouter.get("/", async (req, res) => {
+productRouter.get("/", isAuth,async (req, res) => {
   listAllProductController(req, res);
 });
 
@@ -20,7 +20,7 @@ productRouter.get("/:id", async (req, res) => {
   getProductController(req, res);
 });
 
-productRouter.get("/:category_id", async (req, res) => {
+productRouter.get("/category/:category_id", async (req, res) => {
   listAllProductController(req, res);
 });
 
